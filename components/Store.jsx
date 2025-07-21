@@ -1,39 +1,104 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const productos = [
-  { id: 1, nombre: 'Coche Elegante', precio: '€500', descripcion: 'Vehículo rápido y estilizado' },
-  { id: 2, nombre: 'Casa Moderna', precio: '€1200', descripcion: 'Vivienda con todas las comodidades' },
-  { id: 3, nombre: 'Ped Especial', precio: '€300', descripcion: 'Personaje con estilo único' },
-  { id: 4, nombre: 'Mafia Élite', precio: '€1000', descripcion: 'Únete a la mafia más poderosa' },
-  { id: 5, nombre: 'Banda Urbana', precio: '€800', descripcion: 'Controla las calles con tu banda' },
-  { id: 6, nombre: 'Cartel de Droga', precio: '€1500', descripcion: 'Dominio total del narcotráfico' },
-  { id: 7, nombre: 'Pack Inicial', precio: '€200', descripcion: 'Todo lo básico para comenzar' },
-  { id: 8, nombre: 'Colores Personalizados', precio: '€50', descripcion: 'Personaliza tu vehículo y ropa' },
+const items = [
+  {
+    nombre: 'Mafias',
+    descripcion: 'Accede a mafias exclusivas dentro del servidor',
+    precio: '60.00',
+    imagen: '/img/mafia.jpg'
+  },
+  {
+    nombre: 'Carteles',
+    descripcion: 'Forma parte de los carteles más poderosos',
+    precio: '100.00',
+    imagen: '/img/cartel.jpg'
+  },
+  {
+    nombre: 'Coches VIP',
+    descripcion: 'Los mejores coches VIP del concesionario',
+    precio: '0.00',
+    imagen: '/img/coches.jpg'
+  },
+  {
+    nombre: 'Peds',
+    descripcion: 'Peds personalizados para tu personaje',
+    precio: '25.00',
+    imagen: '/img/peds.jpg'
+  },
+  {
+    nombre: 'Mapeados Personales',
+    descripcion: 'Mapas únicos hechos a tu medida',
+    precio: '50.00',
+    imagen: '/img/mapa.jpg'
+  },
+  {
+    nombre: 'Negocio Personal',
+    descripcion: 'Tu propio negocio dentro del servidor',
+    precio: '60.00',
+    imagen: '/img/negocio.jpg'
+  },
+  {
+    nombre: 'Mecánico',
+    descripcion: 'Accede al rol de mecánico exclusivo',
+    precio: '60.00',
+    imagen: '/img/mecanico.jpg'
+  },
+  {
+    nombre: 'Ropa Personal',
+    descripcion: 'Prendas personalizadas para ti',
+    precio: '20.00',
+    imagen: '/img/ropa.jpg'
+  },
+  {
+    nombre: 'Extras',
+    descripcion: 'Extras únicos para tu experiencia',
+    precio: '25.00',
+    imagen: '/img/extras.jpg'
+  }
 ]
 
 export default function Store() {
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = "https://www.paypal.com/sdk/js?client-id=Afrk5xxbAlMQp3_hw9m4J4kyP5XaCzpDCj2H1yU2rUz3g6tazLC5NMwNQZ68w2UPr2acvXlfH5qktbIE&currency=EUR"
+    script.addEventListener('load', () => {
+      items.forEach((item) => {
+        if (window.paypal) {
+          window.paypal.Buttons({
+            createOrder: function (data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: { value: item.precio },
+                  description: item.nombre
+                }]
+              })
+            },
+            onApprove: function (data, actions) {
+              return actions.order.capture().then(function (details) {
+                alert('¡Gracias por tu compra, ' + details.payer.name.given_name + '!')
+              })
+            }
+          }).render(`#paypal-button-${item.nombre.replace(/\s/g, '')}`)
+        }
+      })
+    })
+    document.body.appendChild(script)
+  }, [])
+
   return (
-    <section className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-primary">Tienda MandangaRP</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {productos.map(({ id, nombre, precio, descripcion }) => (
-          <div
-            key={id}
-            className="border border-primary rounded-lg p-4 hover:shadow-lg transition-shadow bg-fondo"
-          >
-            <h3 className="text-xl font-semibold mb-2">{nombre}</h3>
-            <p className="mb-2">{descripcion}</p>
-            <p className="font-bold text-primary">{precio}</p>
-            <button
-              disabled
-              className="mt-3 w-full bg-primary text-white py-2 rounded opacity-70 cursor-not-allowed"
-              title="Donación para mejoras en el servidor"
-            >
-              Donar
-            </button>
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 py-10">
+      {items.map((item) => (
+        <div key={item.nombre} className="bg-white rounded-xl overflow-hidden shadow-lg hover:scale-105 transition text-center">
+          <img src={item.imagen} alt={item.nombre} className="w-full h-48 object-cover" />
+          <div className="p-4">
+            <h3 className="text-xl font-bold text-gray-800">{item.nombre}</h3>
+            <p className="text-gray-600">{item.descripcion}</p>
+            <p className="text-orange-500 font-bold text-lg mt-2">{item.precio} €</p>
+            <div className="mt-4" id={`paypal-button-${item.nombre.replace(/\s/g, '')}`}></div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </section>
   )
 }
+

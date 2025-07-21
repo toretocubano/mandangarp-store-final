@@ -2,16 +2,12 @@ import React from 'react'
 
 export default function Normativa() {
   return (
-    <section className="mb-12 bg-[#ff6a00]/10 rounded-lg p-6 border border-[#ff6a00]">
-      <h2 className="text-3xl font-bold mb-4 text-primary">Normativa y Condiciones</h2>
-      <ul className="list-disc list-inside space-y-2 text-sm">
-        <li>Todos los artículos y servicios en esta tienda son de pago.</li>
-        <li>Las donaciones se realizan vía PayPal al correo <code>ag0238334@gmail.com</code> como amigos y familiares.</li>
-        <li>La compra solo se concreta al recibir la confirmación de pago.</li>
-        <li>Las donaciones son irrevocables y no se hacen devoluciones bajo ninguna circunstancia.</li>
-        <li>Si incumples las normas del servidor, las donaciones no serán reembolsadas.</li>
-        <li>Estas donaciones ayudan a mejorar y mantener el servidor MandangaRP.</li>
-      </ul>
+    <section className="bg-gray-800 text-white py-8 px-4 text-center">
+      <h2 className="text-2xl font-bold mb-4">Normativa y Condiciones</h2>
+      <p>Las donaciones son voluntarias y no reembolsables.</p>
+      <p>Los productos son virtuales y solo se usan dentro de MandangaRP.</p>
+      <p>Las donaciones vía PayPal deberán hacerse como “Amigos y Familiares”.</p>
+      <p>MandangaRP se reserva el derecho de modificar las condiciones sin previo aviso.</p>
     </section>
   )
 }

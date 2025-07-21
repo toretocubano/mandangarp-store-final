@@ -2,16 +2,11 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: '#0057B8', // azul fuerte
-        secondary: '#FF6A00', // naranja brillante
-        fondo: '#FDF6F0', // fondo suave, opcional
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }
